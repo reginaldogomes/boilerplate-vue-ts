@@ -1,11 +1,12 @@
+<!-- src/views/CountriesView.vue -->
 <template>
   <div class="p-6 max-w-6xl mx-auto">
     <h1 class="text-3xl font-bold mb-4 text-primary">🌍 Lista de Países</h1>
 
-    <div v-if="loading" class="text-center py-10 text-gray-600">Carregando países...</div>
+    <div v-if="store.loading" class="text-center py-10 text-gray-600">Carregando países...</div>
 
-    <div v-else-if="error" class="text-center text-red-600 py-10">
-      {{ error }}
+    <div v-else-if="store.error" class="text-center text-red-600 py-10">
+      {{ store.error }}
     </div>
 
     <div v-else>
@@ -38,7 +39,7 @@
         <button
           v-if="hasMore"
           @click="loadMore"
-          class="bg-amber-500 text-amber-500 px-4 py-2 rounded hover:bg-primary-dark transition"
+          class="bg-amber-950 text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
           Ver mais
         </button>
@@ -48,18 +49,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useCountryStore } from '@/stores/useCountryStore'
 import CountryCard from '@/components/CountryCard.vue'
-import { useCountries } from '@/composables/useCountries'
 
-const { countries, loading, error } = useCountries()
-const page = ref(1)
-const pageSize = 12
+const store = useCountryStore()
 const searchTerm = ref('')
 const sortBy = ref<'name' | 'population'>('name')
+const page = ref(1)
+const pageSize = 12
+
+onMounted(() => {
+  if (store.countries.length === 0) {
+    store.fetchCountries()
+  }
+})
 
 const filteredCountries = computed(() => {
-  return countries.value.filter((c) =>
+  return store.countries.filter((c) =>
     c.name.common.toLowerCase().includes(searchTerm.value.toLowerCase()),
   )
 })
@@ -68,9 +75,8 @@ const sortedCountries = computed(() => {
   return [...filteredCountries.value].sort((a, b) => {
     if (sortBy.value === 'name') {
       return a.name.common.localeCompare(b.name.common)
-    } else {
-      return (b.population || 0) - (a.population || 0)
     }
+    return b.population - a.population
   })
 })
 

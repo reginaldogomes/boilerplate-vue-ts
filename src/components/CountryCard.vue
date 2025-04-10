@@ -1,61 +1,56 @@
+<!-- src/components/CountryCard.vue -->
 <template>
-  <div
-    class="bg-white shadow rounded-xl p-4 flex flex-col items-center text-center dark:bg-neutral-dark"
-  >
-    <!-- Imagem da bandeira -->
+  <div class="border rounded-lg p-4 shadow bg-white hover:shadow-md transition">
     <img
-      v-if="country.flags?.svg"
       :src="country.flags.svg"
-      :alt="`Bandeira de ${country.name?.common || 'desconhecido'}`"
-      class="w-20 h-14 object-cover rounded border mb-4"
+      :alt="country.name.common"
+      class="w-full h-40 object-cover mb-4 rounded"
     />
-    <!-- Nome do país -->
-    <h2 class="text-lg font-semibold text-primary mb-1 dark:text-primary-light">
-      {{ country.name?.common || 'Nome desconhecido' }}
-    </h2>
-    <!-- Capital -->
-    <p class="text-sm text-gray-600 dark:text-neutral-light">
-      <strong>Capital:</strong> {{ country.capital?.[0] || '—' }}
+
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-xl font-semibold text-primary">{{ country.name.common }}</h3>
+      <span v-if="rank !== undefined" class="text-lg font-bold" :class="badgeClass(rank)">
+        {{ medal(rank) }}
+      </span>
+    </div>
+
+    <p class="text-sm text-gray-600">
+      <strong>Capital:</strong> {{ country.capital?.[0] || 'N/A' }}
     </p>
-    <!-- População -->
-    <p class="text-sm text-gray-600 mb-4 dark:text-neutral-light">
-      <strong>População:</strong> {{ formattedPopulation }}
+    <p class="text-sm text-gray-600">
+      <strong>População:</strong> {{ country.population.toLocaleString() }}
     </p>
-    <!-- Link para detalhes -->
-    <RouterLink
-      :to="countryDetailsLink"
-      class="mt-auto text-sm text-white bg-primary px-3 py-1 rounded hover:bg-primary-dark transition"
-    >
-      Ver detalhes
-    </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+defineProps<{
+  country: {
+    flags: { svg: string }
+    name: { common: string }
+    capital?: string[]
+    population: number
+  }
+  rank?: number
+}>()
 
-// Interface do país
-interface Country {
-  name: {
-    common: string
-  }
-  capital?: string[]
-  population?: number
-  flags?: {
-    svg?: string
-  }
+const badgeClass = (rank: number) => {
+  return (
+    {
+      0: 'text-yellow-500',
+      1: 'text-gray-400',
+      2: 'text-orange-500',
+    }[rank] || 'text-secondary'
+  )
 }
 
-// Define as props
-const props = defineProps<{ country: Partial<Country> }>()
-
-// Computed para formatar a população
-const formattedPopulation = computed(() =>
-  props.country.population ? props.country.population.toLocaleString() : '—',
-)
-
-// Computed para o link de detalhes
-const countryDetailsLink = computed(() =>
-  props.country.name?.common ? `/country/${encodeURIComponent(props.country.name.common)}` : '#',
-)
+const medal = (rank: number) => {
+  return (
+    {
+      0: '🥇',
+      1: '🥈',
+      2: '🥉',
+    }[rank] || `${rank + 1}º`
+  )
+}
 </script>
