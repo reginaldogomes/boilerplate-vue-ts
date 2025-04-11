@@ -1,55 +1,44 @@
-<!-- src/components/TopPopulousCountries.vue -->
 <template>
-  <div class="p-4">
-    <h2 class="text-2xl font-bold mb-4 text-primary">👥 Países Mais Populosos</h2>
+  <div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Top 12 Países Mais Populosos</h2>
 
-    <div v-if="store.loading" class="text-gray-500 text-center py-6">Carregando...</div>
-    <div v-else-if="store.error" class="text-red-500 text-center py-6">{{ store.error }}</div>
-
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <CountryCard
-        v-for="(country, index) in visibleCountries"
+    <div v-if="topCountries.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div
+        v-for="country in topCountries"
         :key="country.cca3"
-        :country="country"
-        :rank="getRank(country)"
-      />
+        class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center"
+      >
+        <img
+          :src="country.flags.svg"
+          :alt="`Bandeira de ${country.name.common}`"
+          class="w-32 h-20 object-cover rounded border mb-4"
+        />
+        <h3 class="text-xl font-semibold mb-2">{{ country.name.common }}</h3>
+        <p class="text-gray-700 text-sm">Capital: {{ country.capital?.[0] || '—' }}</p>
+        <p class="text-gray-700 text-sm">População: {{ country.population.toLocaleString() }}</p>
+      </div>
+    </div>
+
+    <div v-else class="text-center text-gray-500 text-lg mt-10">
+      Nenhum país disponível no momento.
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCountryStore } from '@/stores/useCountryStore'
-import CountryCard from './CountryCard.vue'
+import type { Country } from '@/types/Country'
 
 const store = useCountryStore()
+const { countries } = storeToRefs(store)
 
-onMounted(() => {
-  store.fetchCountries()
-  rotateVisible()
-  interval.value = setInterval(rotateVisible, 10000)
-})
-
-onBeforeUnmount(() => {
-  clearInterval(interval.value)
-})
-
-const interval = ref<number | undefined>()
-
-// 🧠 Seleciona os 12 países mais populosos da store (sem afetar ela)
-const topPopulous = computed(() => {
-  return [...store.countries].sort((a, b) => (b.population || 0) - (a.population || 0)).slice(0, 12)
-})
-
-// Lista visível de 6 países
-const visibleCountries = ref<any[]>([])
-
-function rotateVisible() {
-  const shuffled = [...topPopulous.value].sort(() => Math.random() - 0.5)
-  visibleCountries.value = shuffled.slice(0, 6)
-}
-
-function getRank(country: any): number {
-  return topPopulous.value.findIndex((c) => c.cca3 === country.cca3)
-}
+const topCountries = computed(
+  () =>
+    countries.value
+      .filter((c): c is Country => !!c && !!c.population && !!c.flags?.svg && !!c.name?.common)
+      .sort((a, b) => b.population - a.population)
+      .slice(0, 12), // ← aqui está o ajuste!
+)
 </script>

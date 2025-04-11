@@ -1,11 +1,22 @@
 # 🚀 Boilerplate Vue 3 + TypeScript + Tailwind 4
 
-Este projeto é um boilerplate moderno e minimalista para desenvolvimento com **Vue 3** e **TypeScript**, com suporte a JSX, Tailwind CSS 4, Pinia, Router, testes com Vitest e Playwright, e boas práticas com ESLint + Prettier.
+Este projeto é uma aplicação web interativa voltada para a visualização e exploração de informações sobre países do mundo. Os dados são obtidos de uma API pública (REST Countries), permitindo ao usuário:
+
+- Pesquisar países pelo nome em tempo real
+
+- Ordenar a lista de países por nome ou por população
+
+- Navegar por uma lista paginada, exibindo 12 países por vez, com a opção de carregar mais conforme a navegação
+
+- Visualizar informações como bandeira, nome, capital e população diretamente na lista
+
+O sistema foi pensado para proporcionar uma experiência simples, rápida e agradável, permitindo que qualquer pessoa possa explorar dados geográficos de forma eficiente e acessível.
 
 ---
 
 ## 📦 Tecnologias e Ferramentas
 
+- ✅ **Vue 3** + **TypeScript**
 - ✅ **Vue 3** + **TypeScript**
 - 🎨 **Tailwind CSS 4**
 - 🧠 **Pinia** (State Management)

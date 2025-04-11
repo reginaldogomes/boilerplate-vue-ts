@@ -41,10 +41,25 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
+// Interface apenas com os campos que estamos usando
+interface Country {
+  name: {
+    common: string
+  }
+  capital?: string[]
+  population?: number
+  region?: string
+  subregion?: string
+  area?: number
+  flags?: {
+    svg: string
+  }
+}
+
 const route = useRoute()
 const router = useRouter()
 
-const country = ref<any>(null)
+const country = ref<Country | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
@@ -57,7 +72,7 @@ onMounted(async () => {
     const name = route.params.name
     const res = await axios.get(`https://restcountries.com/v3.1/name/${name}?fullText=true`)
     country.value = res.data[0]
-  } catch (err) {
+  } catch {
     error.value = 'Erro ao carregar os dados do país.'
   } finally {
     loading.value = false
