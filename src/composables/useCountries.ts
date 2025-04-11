@@ -21,7 +21,7 @@ const error = ref<string | null>(null)
 const API_URL = import.meta.env.VITE_API_URL
 
 export const fetchCountries = async () => {
-  loading.value = true
+  loading.value = truehg uj n
   error.value = null
   try {
     const res = await axios.get<Country[]>(API_URL)

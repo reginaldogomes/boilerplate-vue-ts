@@ -46,6 +46,6 @@ onMounted(() => {
 const richestCountries = computed(() =>
   richestCountryNames
     .map((name) => store.countries.find((c) => c.name.common === name))
-    .filter(Boolean),
+    .filter((country): country is NonNullable<typeof country> => country !== undefined),
 )
 </script>
