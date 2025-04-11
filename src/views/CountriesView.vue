@@ -1,4 +1,3 @@
-<!-- src/views/CountriesView.vue -->
 <template>
   <div class="p-6 max-w-6xl mx-auto">
     <h1 class="text-3xl font-bold mb-4 text-primary">🌍 Lista de Países</h1>
@@ -27,7 +26,14 @@
         </select>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Nenhum país encontrado -->
+      <div v-if="filteredCountries.length === 0" class="text-center text-gray-500 py-10">
+        Nenhum país encontrado com o termo "<strong>{{ searchTerm }}</strong
+        >".
+      </div>
+
+      <!-- Lista de países -->
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <CountryCard
           v-for="(country, index) in paginatedCountries"
           :key="index"
@@ -39,7 +45,7 @@
         <button
           v-if="hasMore"
           @click="loadMore"
-          class="bg-amber-950 text-white px-4 py-2 rounded hover:bg-primary-dark transition"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-primary-dark transition"
         >
           Ver mais
         </button>

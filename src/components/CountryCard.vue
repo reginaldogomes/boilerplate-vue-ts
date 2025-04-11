@@ -1,6 +1,6 @@
 <!-- src/components/CountryCard.vue -->
 <template>
-  <div class="border rounded-lg p-4 shadow bg-white hover:shadow-md transition">
+  <div class="rounded-lg p-4 shadow bg-blue-50 hover:shadow-md transition">
     <img
       :src="country.flags.svg"
       :alt="country.name.common"
@@ -20,6 +20,12 @@
     <p class="text-sm text-gray-600">
       <strong>População:</strong> {{ country.population.toLocaleString() }}
     </p>
+    <router-link
+      :to="`/country/${country.name.common}`"
+      class="inline-block mt-4 bg-primary text-blue-500 px-4 py-2 rounded hover:bg-primary-dark transition"
+    >
+      Ver Detalhes
+    </router-link>
   </div>
 </template>
 
