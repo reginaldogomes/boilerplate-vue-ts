@@ -1,51 +1,44 @@
-<!-- src/components/TopRichestCountries.vue -->
 <template>
-  <div class="p-4">
-    <h2 class="text-2xl font-bold mb-4 text-accent">💰 Top 12 Países Mais Ricos</h2>
+  <div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Top 10 Países Mais Populosos</h2>
 
-    <div v-if="store.loading" class="text-gray-500 text-center py-6">Carregando...</div>
-    <div v-if="store.error" class="text-red-500 text-center py-6">{{ store.error }}</div>
+    <div v-if="topCountries.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div
+        v-for="country in topCountries"
+        :key="country.cca3"
+        class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center"
+      >
+        <img
+          :src="country.flags.svg"
+          :alt="`Bandeira de ${country.name.common}`"
+          class="w-32 h-20 object-cover rounded border mb-4"
+        />
+        <h3 class="text-xl font-semibold mb-2">{{ country.name.common }}</h3>
+        <p class="text-gray-700 text-sm">Capital: {{ country.capital?.[0] || '—' }}</p>
+        <p class="text-gray-700 text-sm">População: {{ country.population.toLocaleString() }}</p>
+      </div>
+    </div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <CountryCard
-        v-for="(country, index) in richestCountries"
-        :key="index"
-        :country="country"
-        :rank="index"
-      />
+    <div v-else class="text-center text-gray-500 text-lg mt-10">
+      Nenhum país disponível no momento.
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCountryStore } from '@/stores/useCountryStore'
-import CountryCard from './CountryCard.vue'
+import type { Country } from '@/types/Country'
 
 const store = useCountryStore()
+const { countries } = storeToRefs(store)
 
-const richestCountryNames = [
-  'United States',
-  'China',
-  'Japan',
-  'Germany',
-  'India',
-  'United Kingdom',
-  'France',
-  'Italy',
-  'Brazil',
-  'Canada',
-  'Russia',
-  'South Korea',
-]
-
-onMounted(() => {
-  store.fetchCountries()
-})
-
-const richestCountries = computed(() =>
-  richestCountryNames
-    .map((name) => store.countries.find((c) => c.name.common === name))
-    .filter((country): country is NonNullable<typeof country> => country !== undefined),
+// Computed com filtro seguro para garantir dados completos
+const topCountries = computed(() =>
+  countries.value
+    .filter((c): c is Country => !!c && !!c.population && !!c.flags?.svg && !!c.name?.common)
+    .sort((a, b) => b.population - a.population)
+    .slice(0, 10),
 )
 </script>

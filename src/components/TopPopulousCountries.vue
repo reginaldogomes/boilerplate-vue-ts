@@ -1,42 +1,44 @@
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-    <div
-      v-for="country in validCountries"
-      :key="country.cca3"
-      class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center"
-    >
-      <img
-        v-if="country.flags?.svg"
-        :src="country.flags.svg"
-        :alt="`Bandeira de ${country.name.common}`"
-        class="w-24 h-16 object-contain mb-2"
-      />
-      <h2 class="text-lg font-semibold">{{ country.name.common }}</h2>
-      <p v-if="country.capital" class="text-sm text-gray-600">Capital: {{ country.capital[0] }}</p>
-      <p class="text-sm text-gray-600">População: {{ country.population.toLocaleString() }}</p>
+  <div class="max-w-6xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Top 12 Países Mais Populosos</h2>
+
+    <div v-if="topCountries.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div
+        v-for="country in topCountries"
+        :key="country.cca3"
+        class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center"
+      >
+        <img
+          :src="country.flags.svg"
+          :alt="`Bandeira de ${country.name.common}`"
+          class="w-32 h-20 object-cover rounded border mb-4"
+        />
+        <h3 class="text-xl font-semibold mb-2">{{ country.name.common }}</h3>
+        <p class="text-gray-700 text-sm">Capital: {{ country.capital?.[0] || '—' }}</p>
+        <p class="text-gray-700 text-sm">População: {{ country.population.toLocaleString() }}</p>
+      </div>
+    </div>
+
+    <div v-else class="text-center text-gray-500 text-lg mt-10">
+      Nenhum país disponível no momento.
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCountryStore } from '@/stores/useCountryStore'
+import type { Country } from '@/types/Country'
 
 const store = useCountryStore()
+const { countries } = storeToRefs(store)
 
-// Filtrando apenas os países válidos com os dados necessários
-const validCountries = computed(
+const topCountries = computed(
   () =>
-    store.countries
-      .filter(
-        (country) =>
-          country.flags?.svg && country.name?.common && typeof country.population === 'number',
-      )
-      .sort((a, b) => b.population! - a.population!) // ordena por população
-      .slice(0, 10), // pega os 10 mais populosos (ou mais ricos, se você tiver essa info)
+    countries.value
+      .filter((c): c is Country => !!c && !!c.population && !!c.flags?.svg && !!c.name?.common)
+      .sort((a, b) => b.population - a.population)
+      .slice(0, 12), // ← aqui está o ajuste!
 )
 </script>
-
-<style scoped>
-/* Adicione estilos se quiser */
-</style>
