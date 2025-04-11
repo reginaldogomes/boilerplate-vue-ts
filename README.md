@@ -89,4 +89,4 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
-Feito com 💙 por Reginaldo Gomes
+Feito por Reginaldo Gomes
