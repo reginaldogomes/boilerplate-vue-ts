@@ -1,4 +1,5 @@
-import { ref, onMounted } from 'vue'
+// src/composables/useCountries.ts
+import { ref } from 'vue'
 import axios from 'axios'
 
 export interface Country {
@@ -16,7 +17,7 @@ const countries = ref<Country[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-const fetchCountries = async () => {
+export const fetchCountries = async () => {
   loading.value = true
   error.value = null
   try {
@@ -24,18 +25,17 @@ const fetchCountries = async () => {
     countries.value = res.data
   } catch (err) {
     error.value = 'Erro ao buscar países.'
-    console.error(err)
+    countries.value = [] // garante reset
   } finally {
     loading.value = false
   }
 }
 
 export function useCountries() {
-  onMounted(fetchCountries)
-
   return {
     countries,
     loading,
     error,
+    fetchCountries, // agora acessível para testar
   }
 }

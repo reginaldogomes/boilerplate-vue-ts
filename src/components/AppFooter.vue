@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gray-100 text-center py-4 mt-10 text-gray-600 text-sm">
+  <footer class="bg-blue-500 text-center py-4 mt-10 text-blue-50 text-sm">
     © {{ year }} Meu Projeto. Todos os direitos reservados.
   </footer>
 </template>
