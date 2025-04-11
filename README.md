@@ -17,6 +17,7 @@ O sistema foi pensado para proporcionar uma experiência simples, rápida e agra
 ## 📦 Tecnologias e Ferramentas
 
 - ✅ **Vue 3** + **TypeScript**
+- ✅ **Vue 3** + **TypeScript**
 - 🎨 **Tailwind CSS 4**
 - 🧠 **Pinia** (State Management)
 - 🌐 **Vue Router** (SPA)
