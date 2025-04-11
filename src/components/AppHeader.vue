@@ -1,10 +1,9 @@
 <template>
   <header class="bg-blue-500 text-white py-4 px-6 shadow">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold">Meu Projeto</h1>
+      <h1 class="text-xl font-bold">{{ APP_NAME }}</h1>
       <nav class="space-x-4">
         <RouterLink to="/" class="hover:underline">Home</RouterLink>
-        <RouterLink to="/about" class="hover:underline">Sobre</RouterLink>
         <RouterLink to="/countries" class="hover:underline">Países</RouterLink>
       </nav>
     </div>
@@ -13,4 +12,6 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+
+import { APP_NAME } from '@/constants/config'
 </script>

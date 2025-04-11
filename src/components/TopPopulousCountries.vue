@@ -8,7 +8,7 @@
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       <CountryCard
-        v-for="(country, index) in visibleCountries"
+        v-for="country in visibleCountries"
         :key="country.cca3"
         :country="country"
         :rank="getRank(country)"
@@ -20,9 +20,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useCountryStore } from '@/stores/useCountryStore'
+import type { Country } from '@/composables/useCountries'
 import CountryCard from './CountryCard.vue'
 
 const store = useCountryStore()
+const interval = ref<number | undefined>()
 
 onMounted(() => {
   store.fetchCountries()
@@ -34,22 +36,21 @@ onBeforeUnmount(() => {
   clearInterval(interval.value)
 })
 
-const interval = ref<number | undefined>()
-
 // 🧠 Seleciona os 12 países mais populosos da store (sem afetar ela)
-const topPopulous = computed(() => {
+const topPopulous = computed<Country[]>(() => {
   return [...store.countries].sort((a, b) => (b.population || 0) - (a.population || 0)).slice(0, 12)
 })
 
-// Lista visível de 6 países
-const visibleCountries = ref<any[]>([])
+// Lista visível de 6 países com tipagem correta
+const visibleCountries = ref<Country[]>([])
 
 function rotateVisible() {
   const shuffled = [...topPopulous.value].sort(() => Math.random() - 0.5)
   visibleCountries.value = shuffled.slice(0, 6)
 }
 
-function getRank(country: any): number {
+// Função rankeadora com tipagem adequada
+function getRank(country: Country): number {
   return topPopulous.value.findIndex((c) => c.cca3 === country.cca3)
 }
 </script>
