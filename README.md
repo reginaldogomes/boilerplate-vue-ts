@@ -1,6 +1,6 @@
 # 🚀 Rest Countries API + TypeScript + Tailwind 4
 
-# Projeto de Visualização de Países
+## Projeto de Visualização de Países
 
 Esta aplicação web interativa foi desenvolvida como parte de uma avaliação técnica com o objetivo de demonstrar habilidades em desenvolvimento front-end moderno, utilizando Vue 3, TypeScript, Composition API e Tailwind CSS.
 
@@ -18,7 +18,7 @@ O sistema permite a visualização e exploração de dados geográficos de forma
 
 ## 📦 Tecnologias e Ferramentas
 
-- ✅ **Vue 3** com Composition API + **TypeScript**
+- ✅ **Vue 3 Composition API** + **TypeScript**
 - ✅ **Axios** para requisições HTTP
 - 🎨 **Tailwind CSS 4**
 - 🧠 **Pinia** (State Management)
@@ -42,23 +42,6 @@ npm run format      # Formata o código com Prettier
 npm run type-check  # Verifica os tipos TypeScript
 npm run test:unit   # Executa testes unitários com Vitest
 npm run test:e2e    # Executa testes E2E com Playwright
-```
-
----
-
-## 🧱 Estrutura do Projeto
-
-```
-src/
-├── assets/              # Imagens, ícones, fontes, etc.
-├── components/          # Componentes reutilizáveis
-├── layouts/             # Layouts com header/footer
-├── pages/               # Páginas do app
-├── router/              # Configuração de rotas
-├── store/               # Gerenciamento de estado (Pinia)
-├── styles/              # Arquivos CSS/Tailwind
-├── App.vue              # Componente raiz
-└── main.ts              # Ponto de entrada
 ```
 
 ---

@@ -1,33 +1,34 @@
 <template>
-  <div class="p-8 max-w-md mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Login</h1>
-    <form @submit.prevent="handleLogin" class="flex flex-col gap-4">
-      <input v-model="username" placeholder="Usuário" class="input" />
-      <input v-model="password" type="password" placeholder="Senha" class="input" />
-      <button type="submit" class="btn bg-blue-500 text-white py-2 rounded">Entrar</button>
-      <p v-if="error" class="text-red-500">Credenciais inválidas</p>
-    </form>
+  <div class="p-6 max-w-6xl mx-auto">
+    <google-login
+      :client-id="googleClientId"
+      @success="handleLoginSuccess"
+      @error="handleLoginError"
+    >
+      Login com Google
+    </google-login>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuth } from '@/composables/useAuth'
-import { useRouter } from 'vue-router'
+import { GoogleLogin } from 'vue3-google-login'
 
-const username = ref('')
-const password = ref('')
-const error = ref(false)
+// Obtendo o Client ID do Google a partir das variáveis de ambiente
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-const { login } = useAuth()
-const router = useRouter()
+// Função para tratar o sucesso do login
+const handleLoginSuccess = (response: any) => {
+  // Aqui você pode acessar o token ou as informações do usuário
+  console.log('Login bem-sucedido', response)
+  const { tokenId } = response
+  // Aqui você pode enviar o token para o servidor ou salvar no localStorage
+  localStorage.setItem('google_token', tokenId)
+  // Você pode redirecionar o usuário ou armazenar o estado
+}
 
-const handleLogin = async () => {
-  const success = await login(username.value, password.value)
-  if (success) {
-    router.push('/')
-  } else {
-    error.value = true
-  }
+// Função para tratar erro no login
+const handleLoginError = (error: any) => {
+  console.error('Erro no login com Google', error)
 }
 </script>
