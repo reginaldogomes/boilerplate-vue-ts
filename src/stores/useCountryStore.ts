@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import type { Country } from '@/types/Country'
+import type { Country } from '@/@types/Country'
 
 export const useCountryStore = defineStore('countries', {
   state: () => ({
