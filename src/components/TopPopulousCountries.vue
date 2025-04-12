@@ -26,19 +26,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCountryStore } from '@/stores/useCountryStore'
-import type { Country } from '@/types/Country'
+import type { Country } from '@/@types/Country'
 
 const store = useCountryStore()
 const { countries } = storeToRefs(store)
 
-const topCountries = computed(
-  () =>
-    countries.value
-      .filter((c): c is Country => !!c && !!c.population && !!c.flags?.svg && !!c.name?.common)
-      .sort((a, b) => b.population - a.population)
-      .slice(0, 12), // ← aqui está o ajuste!
+onMounted(() => {
+  if (!countries.value.length) {
+    store.fetchCountries()
+  }
+})
+
+const topCountries = computed(() =>
+  countries.value
+    .filter((c): c is Country => !!c && !!c.population && !!c.flags?.svg && !!c.name?.common)
+    .sort((a, b) => b.population - a.population)
+    .slice(0, 12),
 )
 </script>
