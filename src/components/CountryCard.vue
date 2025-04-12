@@ -1,10 +1,12 @@
 <!-- src/components/CountryCard.vue -->
 <template>
-  <div class="rounded-lg p-4 shadow bg-blue-50 hover:shadow-md transition">
+  <div
+    class="rounded-lg p-4 shadow hover:shadow-md transition flex flex-col items-center text-center"
+  >
     <img
       :src="country.flags.svg"
       :alt="country.name.common"
-      class="w-full h-40 object-cover mb-4 rounded"
+      class="w-32 h-20 object-cover rounded border mb-4"
     />
 
     <div class="flex justify-between items-center mb-2">
