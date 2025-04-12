@@ -5,6 +5,7 @@
       <nav class="space-x-4">
         <RouterLink to="/" class="hover:underline">Home</RouterLink>
         <RouterLink to="/countries" class="hover:underline">Países</RouterLink>
+        <RouterLink to="/login" class="hover:underline">Login</RouterLink>
       </nav>
     </div>
   </header>
