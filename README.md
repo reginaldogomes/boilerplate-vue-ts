@@ -1,23 +1,25 @@
-# 🚀 Boilerplate Vue 3 + TypeScript + Tailwind 4
+# 🚀 Rest Countries API + TypeScript + Tailwind 4
 
-Este projeto é uma aplicação web interativa voltada para a visualização e exploração de informações sobre países do mundo. Os dados são obtidos de uma API pública (REST Countries), permitindo ao usuário:
+# Projeto de Visualização de Países
 
-- Pesquisar países pelo nome em tempo real
+Esta aplicação web interativa foi desenvolvida como parte de uma avaliação técnica com o objetivo de demonstrar habilidades em desenvolvimento front-end moderno, utilizando Vue 3, TypeScript, Composition API e Tailwind CSS.
 
-- Ordenar a lista de países por nome ou por população
+O sistema permite a visualização e exploração de dados geográficos de forma eficiente e acessível, consumindo informações em tempo real a partir da API pública [REST Countries](https://restcountries.com/). A interface é responsiva, com foco em desempenho, usabilidade e boa experiência do usuário.
 
-- Navegar por uma lista paginada, exibindo 12 países por vez, com a opção de carregar mais conforme a navegação
+## Funcionalidades
 
-- Visualizar informações como bandeira, nome, capital e população diretamente na lista
-
-O sistema foi pensado para proporcionar uma experiência simples, rápida e agradável, permitindo que qualquer pessoa possa explorar dados geográficos de forma eficiente e acessível.
+- 🔎 **Busca em tempo real** por nome de país
+- 📊 **Ordenação dinâmica** por nome ou população
+- 📄 **Paginação incremental**, exibindo 12 países por vez com opção de "ver mais"
+- 🗺️ **Visualização direta de dados** como bandeira, nome, capital e população na lista
+- 🏅 **Ranking dos 12 países mais populosos**, com visualização destacada
 
 ---
 
 ## 📦 Tecnologias e Ferramentas
 
-- ✅ **Vue 3** + **TypeScript**
-- ✅ **Vue 3** + **TypeScript**
+- ✅ **Vue 3** com Composition API + **TypeScript**
+- ✅ **Axios** para requisições HTTP
 - 🎨 **Tailwind CSS 4**
 - 🧠 **Pinia** (State Management)
 - 🌐 **Vue Router** (SPA)
