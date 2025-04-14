@@ -13,7 +13,12 @@ dist
 dist-ssr
 coverage
 *.local
-
+.env
+.env.*
+.env.development.local
+.env.test.local
+.env.production.local
+.vscode-test
 /cypress/videos/
 /cypress/screenshots/
 
