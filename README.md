@@ -1,4 +1,4 @@
-# 🚀 Rest Countries API + TypeScript + Tailwind 4
+# 🚀 Rest Countries API
 
 ## Projeto de Visualização de Países
 
@@ -18,16 +18,16 @@ O sistema permite a visualização e exploração de dados geográficos de forma
 
 ## 📦 Tecnologias e Ferramentas
 
-- ✅ **Vue 3 Composition API** + **TypeScript**
-- ✅ **Axios** para requisições HTTP
+- ⚙️ **Vue 3 Composition API + TypeScript**
+- 🔗 **Axios** para requisições HTTP
 - 🎨 **Tailwind CSS 4**
 - 🧠 **Pinia** (State Management)
-- 🌐 **Vue Router** (SPA)
-- 🧪 **Vitest** (Unit tests)
-- 🎭 **Playwright** (E2E tests)
-- 🧹 **ESLint** + **Prettier**
-- ⚙️ **Vite** (Build tool)
-- ✅ **JSX Support** via `@vitejs/plugin-vue-jsx`
+- 🌍 **Vue Router** (SPA)
+- 🧪 **Vitest** (Testes unitários)
+- 🎭 **Playwright** (Testes E2E)
+- 🧹 **ESLint + Prettier** (Code style)
+- ⚡ **Vite** (Ferramenta de build)
+- ✨ **JSX Support** via `@vitejs/plugin-vue-jsx`
 
 ---
 
@@ -85,4 +85,4 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
-Feito com 💙 por Reginaldo Gomes
+Feito por Reginaldo Gomes
