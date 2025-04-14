@@ -1,55 +1,33 @@
 // src/composables/useGoogleLogin.ts
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { GoogleLoginResponse, useGoogleLogin as useGoogleLoginLibrary } from 'vue3-google-login'
-import { useUserStore } from '@/stores/useUserStore'
 
 export function useGoogleLogin() {
-  const { loginWithGoogle } = useUserStore()
-  const router = useRouter()
-
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  const onSuccess = (response: GoogleLoginResponse) => {
-    loading.value = true
-    error.value = null
+  const signIn = async () => {
+    try {
+      loading.value = true
+      error.value = null
 
-    const token = response?.tokenId
+      // Este método é inserido pelo plugin GoogleLoginPlugin no window
+      const googleUser = await (window as any).$gAuth.signIn()
 
-    if (!token) {
-      error.value = 'Falha no login do Google. Tente novamente.'
+      const profile = googleUser.getBasicProfile()
+      const token = googleUser.getAuthResponse().id_token
+
+      // Aqui você pode enviar `token` para o seu backend via Vercel Function
+      console.log('Usuário:', profile.getName())
+      console.log('Token JWT do Google:', token)
+
+      // TODO: salvar no Pinia ou localStorage
+    } catch (err) {
+      error.value = 'Falha no login com Google.'
+      console.error(err)
+    } finally {
       loading.value = false
-      return
     }
-
-    loginWithGoogle(token)
-      .then(() => {
-        router.push({ name: 'dashboard' }) // Redireciona após login
-      })
-      .catch((err) => {
-        error.value = 'Erro ao autenticar usuário. Tente novamente.'
-        console.error(err)
-      })
-      .finally(() => {
-        loading.value = false
-      })
   }
 
-  const onFailure = (error: any) => {
-    error.value = 'Erro ao conectar com o Google. Tente novamente.'
-    console.error(error)
-  }
-
-  const { signIn } = useGoogleLoginLibrary({
-    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-    onSuccess,
-    onFailure,
-  })
-
-  return {
-    signIn,
-    loading,
-    error,
-  }
+  return { signIn, loading, error }
 }
